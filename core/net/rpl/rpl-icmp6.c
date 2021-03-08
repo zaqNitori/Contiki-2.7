@@ -942,19 +942,21 @@ uip_rpl_input(void)
 printf("received RSSI => %d\n",rss);
 	rimeaddr_t *sender,*receiver;
 	sender = packetbuf_addr(PACKETBUF_ADDR_SENDER);
-	receiver = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
 	printf("sender => %d.%d.%d.%d.%d.%d.%d.%d\n",sender->u8[0],sender->u8[1]
 ,sender->u8[2],sender->u8[3],sender->u8[4],sender->u8[5],sender->u8[6],sender->u8[7]);
-	/*printf("receiver => %d.%d.%d.%d.%d.%d.%d.%d\n",receiver->u8[0],receiver->u8[1]
-,receiver->u8[2],receiver->u8[3],receiver->u8[4],receiver->u8[5],receiver->u8[6],receiver->u8[7]);*/
-	printf("check in packetbuf  RSSI => %u  , LQI => %u\n",
-	packetbuf_attr(PACKETBUF_ATTR_RSSI),packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY));
-	//printf("received RSSI => %d\n",rss);
+
+	// d = 10 , rssi =  -44
+	// d = 15 , rssi =  -61	, log15 = 1.176
+	// d = 18m, rssi =  -71 , log18 = 1.255
+	//d = 10 and 15	, 10n = 9.65 , A = 52.484 ~ 52.5
+	//d = 10 and 18 , 10n = 10.58 , A = 61.779 ~ 61.8
+	//d = 15 and 18 , 10n = 12.5 , A = 85.875 ~ 86
+	printf("received RSSI => %d\n",rss);
 
 	//distance = expf(0);
 	//printf("expf(0) => %d\n",(int)(distance*1000));
 
-	rssiD = (double)rss;
+	/*rssiD = (double)rss;
 	
 	if(rss < -45)
 {
@@ -969,7 +971,7 @@ distance = expf(0);
 	printf("f => %d\n",(int)(f*1000));
 	
 	printf("equation => P(dBm) = -44.061 - 24.1294 * log(d1) + N(0 , 1.61685554)\n");
-	printf("calculate distance => %dm\n",(int)(distance*1000));
+	printf("calculate distance => %dm\n",(int)(distance*1000));*/
 
   switch(UIP_ICMP_BUF->icode) {
   case RPL_CODE_DIO:
